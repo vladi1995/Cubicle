@@ -5,8 +5,6 @@ const routes = require('./routes');
 
 //Initialize app
 const app = express();
-require(app);
-
 //Configure static files
 app.use('/static', express.static('public'));
 
