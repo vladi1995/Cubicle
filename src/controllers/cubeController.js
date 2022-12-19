@@ -1,8 +1,6 @@
 const router = require('express').Router();
-const fs = require('fs/promises');
-const path = require('path');
-const cubes = require('../db.json');
-
+const cubeService = require('../services/cubeService.js');
+ 
 router.get('/create', (req, res) => {
     res.render('create');
 });
@@ -15,8 +13,7 @@ router.post('/create', (req, res) => {
         return;
     }
     // Save data
-    cubes.push(cube); // Does not save on the server! Data only saves on the array
-    fs.writeFile(path.resolve('src', 'db.json'), JSON.stringify(cubes, '', 4), {encoding: 'utf-8'})
+    cubeService.save(cube)
     .then(() => {
         // Redirect to page
         res.redirect('/');
@@ -24,6 +21,10 @@ router.post('/create', (req, res) => {
     .catch(err => {
         res.status(400).send(err);
     });
+});
+
+router.get('/details/:id', (req, res) => {
+    res.render('details');
 });
 
 
