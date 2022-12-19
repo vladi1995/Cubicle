@@ -8,6 +8,7 @@ const app = express();
 //Configure static files
 app.use('/static', express.static('public'));
 
+app.use(express.urlencoded({extended: false}));
 //Configure handlebars
 app.engine('hbs', handlebars.engine({
     extname: 'hbs', //hbs extension for the main
