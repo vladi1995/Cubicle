@@ -7,3 +7,7 @@ exports.save = (cube) => {
     let textData = JSON.stringify(cubes, '', 4);
     return fs.writeFile(path.resolve('src', 'db.json'), textData, {encoding: 'utf-8'});
 }
+
+exports.getOne = (cubeId) => {
+    return cubes[cubeId];
+}
