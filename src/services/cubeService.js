@@ -9,7 +9,7 @@ exports.save = (cube) => {
 }
 
 exports.getOne = (cubeId) => {
-    return cubes[cubeId];
+    return cubes.find(x => x.id === Number(cubeId));
 }
 
 exports.getAll = (search = '', fromInput, toInput) => {
