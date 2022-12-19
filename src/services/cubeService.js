@@ -12,7 +12,10 @@ exports.getOne = (cubeId) => {
     return cubes[cubeId];
 }
 
-exports.getAll = (search = '', from = 0, to = 6) => {
+exports.getAll = (search = '', fromInput, toInput) => {
+    from = Number(fromInput) || 0;
+    to = Number(toInput) || 6;
+    
     const result = cubes.filter(x => x.name.toLowerCase().includes(search?.toLowerCase() || '')) // ? optional
                         .filter(x => x.difficultyLevel >= from)
                         .filter(x => x.difficultyLevel <= to); 
