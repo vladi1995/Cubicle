@@ -1,23 +1,20 @@
-const fs = require('fs/promises');
 const cubes = require('../db.json');
-const path = require('path');
+const Cube = require('../models/cube.js');
 
-exports.save = (cube) => {
-    cubes.push({id: cubes[cubes.length-1].id + 1, ...cube}); // Does not save on the server! Data only saves on the array
-    let textData = JSON.stringify(cubes, '', 4);
-    return fs.writeFile(path.resolve('src', 'db.json'), textData, {encoding: 'utf-8'});
-}
+exports.create = (cube) => Cube.create(cube);
 
-exports.getOne = (cubeId) => {
-    return cubes.find(x => x.id === Number(cubeId));
-}
+exports.getOne = (cubeId) => Cube.findById(cubeId);
 
-exports.getAll = (search = '', fromInput, toInput) => {
-    from = Number(fromInput) || 0;
-    to = Number(toInput) || 6;
+exports.getAll = async (search = '', fromInput, toInput) => {
+    let cubes = await Cube.find().lean();
+
+    // from = Number(fromInput) || 0;
+    // to = Number(toInput) || 6;
     
-    const result = cubes.filter(x => x.name.toLowerCase().includes(search?.toLowerCase() || '')) // ? optional
-                        .filter(x => x.difficultyLevel >= from)
-                        .filter(x => x.difficultyLevel <= to); 
-    return result;
+    // const result = cubes.filter(x => x.name.toLowerCase().includes(search?.toLowerCase() || '')) // ? optional
+    //                     .filter(x => x.difficultyLevel >= from)
+    //                     .filter(x => x.difficultyLevel <= to); 
+    // return result;
+
+    return cubes;
 }
