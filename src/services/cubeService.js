@@ -4,7 +4,8 @@ const Cube = require('../models/cube.js');
 
 exports.create = (cube) => Cube.create(cube);
 
-exports.getOne = (cubeId) => Cube.findById(cubeId).populate('accessories'); //populate with data from another table
+exports.getOne = (cubeId) => Cube.findById(cubeId);
+exports.getOneDetailed = (cubeId) => Cube.findById(cubeId).populate('accessories'); //populate with data from another table
 
 exports.getAll = async (search = '', fromInput, toInput) => {
     let cubes = await Cube.find().lean();
