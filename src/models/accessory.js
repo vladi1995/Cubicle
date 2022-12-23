@@ -22,7 +22,14 @@ const accessorySchema = new mongoose.Schema({
         type: String,
         required: true,
         maxLenght: 120,
+    },
+
+    cubes: [ 
+        {
+        type: mongoose.Types.ObjectId,
+        ref: 'Cube'
     }
+    ]
 });
 
 // accessorySchema.path('imageUrl').validate(function() {

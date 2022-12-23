@@ -5,8 +5,8 @@ router.get('/create', (req, res) => {
     res.render('accessory/create');
 });
 
-router.post('/create', async (req, res) => {
-    await accessoryService.create(req.body);
+router.post('/create', (req, res) => {
+    accessoryService.create(req.body);
     res.redirect('/');
 });
 
