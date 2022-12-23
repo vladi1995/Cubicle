@@ -8,16 +8,25 @@ exports.getOne = (cubeId) => Cube.findById(cubeId);
 exports.getOneDetailed = (cubeId) => Cube.findById(cubeId).populate('accessories'); //populate with data from another table
 
 exports.getAll = async (search = '', fromInput, toInput) => {
-    let cubes = await Cube.find().lean();
+    const from = Number(fromInput) || 0;
+    const to = Number(toInput) || 6;
 
-    // from = Number(fromInput) || 0;
-    // to = Number(toInput) || 6;
+    // let cubes = await Cube.find(
+    // {
+    //     name: {$regex: new RegExp(search, '')},
+    //     difficultyLevel: {$and: [{$gt: from}, {$lt: to}]}
+    // }).
+    // lean();
+
+    let cubes = await Cube.find(
+        {name: {$regex: new RegExp(search, 'i')}}).
+    where('difficultyLevel').lte(to).gte(from).lean();
+
     
     // const result = cubes.filter(x => x.name.toLowerCase().includes(search?.toLowerCase() || '')) // ? optional
     //                     .filter(x => x.difficultyLevel >= from)
     //                     .filter(x => x.difficultyLevel <= to); 
-    // return result;
-
+    //return result;
     return cubes;
 }
 
