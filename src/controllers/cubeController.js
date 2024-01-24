@@ -1,10 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const db = require('../db.json');
 const Cube = require('../models/Cube');
 
-router.get('/details/:cubeId', (req, res) => {
-    const cube = db.cubes.find(el => el.id === Number(req.params.cubeId));
+router.get('/details/:cubeId', async (req, res) => {
+    const cube = await Cube.findById(req.params.cubeId).lean();
 
     if (!cube) {
         return res.redirect('/404');
@@ -17,12 +16,12 @@ router.get('/create', (req, res) => {
     res.render('create');
 });
 
-router.post('/create', (req, res) => {
+router.post('/create', async (req, res) => {
     const {name, description, imageUrl, difficultyLevel} = req.body;
 
-    const cube = new Cube(name, description, imageUrl, difficultyLevel);
+    const cube = new Cube({name, description, imageUrl, difficultyLevel});
 
-    cube.save();
+    await Cube.create(cube);
 
     res.redirect('/');
 });
