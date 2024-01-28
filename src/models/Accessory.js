@@ -9,7 +9,6 @@ const accessorySchema = new mongoose.Schema({
     imageUrl: {
         type: String,
         required: true,
-        // Add http/https validation
     },
 
     description: {
@@ -18,6 +17,11 @@ const accessorySchema = new mongoose.Schema({
         maxLength: 50,
     }
 });
+
+accessorySchema.path('imageUrl')
+    .validate(function() {
+        return /http[s]*/.test(this)
+    }, 'Image URL must start with http/https');
 
 const Accessory = mongoose.model('Accessory', accessorySchema);
 

@@ -1,4 +1,4 @@
-const { mongoose } = require('mongoose');
+const { mongoose, Types } = require('mongoose');
 
 const cubeSchema = new mongoose.Schema({
     name: {
@@ -15,7 +15,6 @@ const cubeSchema = new mongoose.Schema({
     imageUrl: {
         type: String,
         required: true,
-        // Add http/https validation
     },
 
     difficultyLevel: {
@@ -23,8 +22,20 @@ const cubeSchema = new mongoose.Schema({
         required: true,
         min: 1,
         max: 6,
-    }
+    },
+
+    accessories: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'Accessory'
+        }
+    ]
 });
+
+cubeSchema.path('imageUrl')
+    .validate(function() {
+        return /http[s]*/.test(this)
+    }, 'Image URL must start with http/https');
 
 const Cube = mongoose.model('Cube', cubeSchema);
 
